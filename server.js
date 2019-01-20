@@ -1,8 +1,12 @@
-const express = require('express');
+const express = require('express'); // import express library
 const app = express();
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); // import body-parser library
+const bcrypt = require('bcrypt-nodejs'); //import bcrypt-nodejs library for security hashing
+const cors = require('cors');  //  import cors package to allow to fetch from front-end 
+
 
 app.use(bodyParser.json());
+app.use(cors());
 
 
 const database = {
@@ -19,9 +23,15 @@ const database = {
 			id: '124',
 			name: 'Vasiliki',
 			email: 'vasilikitodori@hotmail.com',
-			password: 'bananas',
 			entries: 0,
 			joined: new Date()
+		}
+	],
+	login: [
+		{
+			id: '999',
+			hash: '',
+			email: 'antonistodoris@gmail.com'
 		}
 	]
 }
@@ -36,8 +46,12 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
+	//bcrypt.compare("bacon", hash, function(err, res) {
+	//	res == true
+	//});
+
 	if(req.body.email === database.users[0].email && req.body.password === database.users[0].password){
-		res.json('Success');
+		res.json(database.users[0]);
 	} else{
 		res.status(400).json('error logging in');
 	}
@@ -45,6 +59,10 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const { name, password, email } = req.body;
+	bcrypt.hash(password, null, null, function(err, hash) {
+	   console.log(hash);
+	});
+
 	database.users.push({
 		id: '125',
 		name: name,
@@ -86,11 +104,14 @@ app.put('/image', (req,res)=>{
 	}
 })
 
+//bcrypt.hash("bacon", null, null, function(err, hash) {
+    // Store hash in your password DB.
+//});
 
-/*
-/ --> res = this is working
-/signin --> POST = success/fail
-/register --> POST = user
-/profile/:userId --> GET = user
-/image --> PUT --> user
-*/
+// Load hash from your password DB.
+//bcrypt.compare("bacon", hash, function(err, res) {
+    // res == true
+//});
+//bcrypt.compare("veggies", hash, function(err, res) {
+    // res = false
+//});
