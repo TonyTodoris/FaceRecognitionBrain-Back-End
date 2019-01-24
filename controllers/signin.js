@@ -1,6 +1,10 @@
 
 const handleSignin = (db, bcrypt) =>  (req,resp) => {
 	const { email, password } = req.body;
+	
+	if(!password || !email){ //if we give empty password or email to register
+		return res.status(400).json('incorrect form submission');
+	}
 
 	db.select('email','hash').from('login')
 	.where('email', '=', email)

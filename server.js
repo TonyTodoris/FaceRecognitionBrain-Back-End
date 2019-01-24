@@ -10,6 +10,7 @@ const signin = require('./controllers/signin'); // Creating a signin controller 
 const profile = require('./controllers/profile'); // Creating a signin controller for cleaner code structure
 const image = require('./controllers/image'); // Creating a image controller for cleaner code structure
 
+
 const db = knex({
   client: 'pg',
   connection: {
@@ -44,6 +45,7 @@ app.post('/register', register.handleRegister(db, bcrypt))
 app.get('/profile/:id', profile.handleProfileGet(db))
 
 app.put('/image', image.handleImageSubmit(db))
+app.post('/imageurl', image.handleApiCall)
 
 //bcrypt.hash("bacon", null, null, function(err, hash) {
     // Store hash in your password DB.
