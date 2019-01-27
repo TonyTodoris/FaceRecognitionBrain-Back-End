@@ -11,6 +11,7 @@ const profile = require('./controllers/profile'); // Creating a signin controlle
 const image = require('./controllers/image'); // Creating a image controller for cleaner code structure
 
 
+
 const db = knex({
   client: 'pg',
   connection: {
@@ -29,10 +30,17 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-app.listen(3000, ()=>{
-	console.log('app is running on port 3000');
-})
 
+//Environmental Variables
+/*const Port = process.env.PORT
+
+app.listen(Port, ()=>{
+	console.log(`app is running on port ${Port}`);
+})
+*/
+app.listen(3000, ()=>{
+  console.log(' app is running on port 3000');
+})
 
 app.get('/', (req, res) => {
 	res.json(database.users);
