@@ -43,7 +43,7 @@ app.listen(process.env.PORT || 3000, ()=>{
 })
 
 app.get('/', (req, res) => {
-	res.json(database.users);
+	res.json("it is working!!!");
 })
 
 app.post('/signin', signin.handleSignin(db, bcrypt))
