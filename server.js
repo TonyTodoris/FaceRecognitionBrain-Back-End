@@ -15,12 +15,20 @@ const image = require('./controllers/image'); // Creating a image controller for
 const db = knex({
   client: 'pg',
   connection: {
-    host : 'postgresql-adjacent-16672',
+    host : process.env.DATABASE_URL,
+    ssl: true
+  }
+})
+
+/*const db = knex({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
     user : '',
     password : '',
     database : 'facerecognition'
   }
-});
+});*/
 
 db.select('*').from('users').then(data =>{
 	//console.log(data);
@@ -43,7 +51,7 @@ app.listen(process.env.PORT || 3000, ()=>{
 })
 
 app.get('/', (req, res) => {
-	res.json("it is working!!!");
+	res.json("it is working");
 })
 
 app.post('/signin', signin.handleSignin(db, bcrypt))
